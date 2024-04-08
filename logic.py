@@ -18,6 +18,8 @@ class Logic(QMainWindow, Ui_montyHallGame):
 
         self.tab_current.setCurrentIndex(0)
         self.label.setText("")
+        self.label_game_instructions.setText("This is the game portion. First, you should select one of the doors"
+                                             "using the buttons labeled door #. ")
 
         self.button_login.clicked.connect(lambda: self.login())
         self.button_register.clicked.connect(lambda: self.register())

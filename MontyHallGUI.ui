@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>1</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="screen_main">
     <attribute name="title">
@@ -75,7 +75,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Enter a unique username and select login or register depending of if you have played before</string>
+      <string>Enter a unique username and select login or register depending of if you have played before (Do NOT enter a password)</string>
      </property>
     </widget>
     <widget class="QPushButton" name="button_login">
@@ -387,6 +387,19 @@ p, li { white-space: pre-wrap; }
      </property>
      <property name="text">
       <string>Stay</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_game_instructions">
+     <property name="geometry">
+      <rect>
+       <x>550</x>
+       <y>10</y>
+       <width>331</width>
+       <height>341</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>TextLabel</string>
      </property>
     </widget>
    </widget>
