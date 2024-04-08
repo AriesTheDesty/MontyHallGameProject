@@ -25,6 +25,8 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.button_game_next.clicked.connect(lambda: self.change_to_stats())
         self.button_game_back.clicked.connect(lambda: self.change_to_main())
         self.button_stats_back.clicked.connect(lambda: self.change_to_game())
+        self.button_main_movetostats.clicked.connect(lambda: self.change_to_stats())
+        self.button_stats_movetomain.clicked.connect(lambda: self.change_to_main())
         self.button_submit.clicked.connect(lambda: self.get_door())
         self.button_stay.clicked.connect(lambda: self.stay_resolve())
         self.button_Switch.clicked.connect(lambda: self.switch_resolve())
@@ -41,7 +43,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
                     first_line = False
                 else:
                     line = line.strip().split(",")
-                    self.stats[line[0]] = [line[1], line[2], line[3]]
+                    self.stats[line[0]] = [int(line[1]), int(line[2]), int(line[3])]
                     self.users.append(line[0])
 
     def login(self):
@@ -75,23 +77,27 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.tab_current.setCurrentIndex(0)
 
     def change_to_game(self):
+        self.button_clear()
         self.tab_current.setCurrentIndex(1)
 
     def change_to_stats(self):
         self.tab_current.setCurrentIndex(2)
 
     def get_door(self):
-        if self.radioButton_door_1.isChecked():
-            self.player_choice = 1
-            self.play_game()
-        elif self.radioButton_door_2.isChecked():
-            self.player_choice = 2
-            self.play_game()
-        elif self.radioButton_door_3.isChecked():
-            self.player_choice = 3
-            self.play_game()
+        if self.current_user == "not logged in":
+            self.label.setText("Please log in with your unique username or anonymous first")
         else:
-            self.label.setText("Chose a door")
+            if self.radioButton_door_1.isChecked():
+                self.player_choice = 1
+                self.play_game()
+            elif self.radioButton_door_2.isChecked():
+                self.player_choice = 2
+                self.play_game()
+            elif self.radioButton_door_3.isChecked():
+                self.player_choice = 3
+                self.play_game()
+            else:
+                self.label.setText("Chose a door")
 
     def play_game(self):
         self.correct_door = rnd.randint(1, 3)
@@ -114,33 +120,38 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.button_Switch.hide()
 
         if self.correct_door == 0:
-            self.get_door()
+            self.label.setText("No button selected")
         elif self.correct_door == self.player_choice:
             self.stats[self.current_user][0] += 1
             self.stats[self.current_user][1] += 1
             self.button_clear()
+            self.update_stats_text()
         elif self.correct_door != self.player_choice:
             self.stats[self.current_user][0] += 1
             self.button_clear()
-
-        self.textbrowser_stats.setText(self.stats)
-
+            self.update_stats_text()
 
     def switch_resolve(self):
         self.button_stay.hide()
         self.button_Switch.hide()
 
         if self.correct_door == 0:
-            self.get_door()
+            self.label.setText("No button selected")
         elif self.correct_door != self.player_choice:
             self.stats[self.current_user][0] += 1
             self.stats[self.current_user][2] += 1
             self.button_clear()
+            self.update_stats_text()
         elif self.correct_door == self.player_choice:
             self.stats[self.current_user][0] += 1
             self.button_clear()
+            self.update_stats_text()
 
-        self.textbrowser_stats.setText(self.stats)
+    def update_stats_text(self):
+        stats_text = ""
+        for user, values in self.stats.items():
+            stats_text += f"{user}: Total Games - {values[0]}, Stay Wins - {values[1]}, Switch Wins - {values[2]}\n"
+        self.label_stats_readout.setText(stats_text)
 
     def button_clear(self):
         if self.radioButton_door_1.isChecked():
@@ -153,15 +164,6 @@ class Logic(QMainWindow, Ui_montyHallGame):
             self.radioButton_door_3.nextCheckState()
             self.label.setText("")
 
-#
-# def read_stats():
-#     stats = {}
-#     with open("stats.csv", "r") as stats_file:
-#         for line in stats_file:
-#             line = line.strip()
-#             stats[line[0]] = [line[1], line[2], line[3]]
-#     return stats
-#
 # def write_stats(stats_dict):
 #     with open("stats.csv", "w") as stats_file:
 #         content = csv.writer(stats_file)

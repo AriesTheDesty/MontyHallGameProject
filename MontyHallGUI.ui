@@ -33,7 +33,7 @@
      <property name="geometry">
       <rect>
        <x>20</x>
-       <y>40</y>
+       <y>50</y>
        <width>71</width>
        <height>41</height>
       </rect>
@@ -51,7 +51,7 @@
      <property name="geometry">
       <rect>
        <x>90</x>
-       <y>40</y>
+       <y>50</y>
        <width>121</width>
        <height>41</height>
       </rect>
@@ -70,8 +70,8 @@
       <rect>
        <x>0</x>
        <y>0</y>
-       <width>451</width>
-       <height>31</height>
+       <width>781</width>
+       <height>41</height>
       </rect>
      </property>
      <property name="text">
@@ -82,7 +82,7 @@
      <property name="geometry">
       <rect>
        <x>10</x>
-       <y>90</y>
+       <y>100</y>
        <width>101</width>
        <height>41</height>
       </rect>
@@ -100,7 +100,7 @@
      <property name="geometry">
       <rect>
        <x>130</x>
-       <y>90</y>
+       <y>100</y>
        <width>101</width>
        <height>41</height>
       </rect>
@@ -167,6 +167,24 @@ p, li { white-space: pre-wrap; }
       <string/>
      </property>
     </widget>
+    <widget class="QPushButton" name="button_main_movetostats">
+     <property name="geometry">
+      <rect>
+       <x>770</x>
+       <y>400</y>
+       <width>111</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>16</pointsize>
+      </font>
+     </property>
+     <property name="text">
+      <string>Statistics</string>
+     </property>
+    </widget>
    </widget>
    <widget class="QWidget" name="screen_game">
     <attribute name="title">
@@ -177,12 +195,18 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>10</x>
        <y>10</y>
-       <width>171</width>
+       <width>161</width>
        <height>341</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/doorImage/door.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="doorResource.qrc">:/doorImage/door.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="image_door_2">
@@ -190,12 +214,18 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>190</x>
        <y>10</y>
-       <width>171</width>
+       <width>161</width>
        <height>341</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/doorImage/door.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="doorResource.qrc">:/doorImage/door.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QLabel" name="image_door_3">
@@ -203,12 +233,18 @@ p, li { white-space: pre-wrap; }
       <rect>
        <x>370</x>
        <y>10</y>
-       <width>171</width>
+       <width>161</width>
        <height>341</height>
       </rect>
      </property>
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;img src=&quot;:/doorImage/door.png&quot;/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string/>
+     </property>
+     <property name="pixmap">
+      <pixmap resource="doorResource.qrc">:/doorImage/door.png</pixmap>
+     </property>
+     <property name="scaledContents">
+      <bool>true</bool>
      </property>
     </widget>
     <widget class="QRadioButton" name="radioButton_door_1">
@@ -266,8 +302,8 @@ p, li { white-space: pre-wrap; }
     <widget class="QPushButton" name="button_submit">
      <property name="geometry">
       <rect>
-       <x>770</x>
-       <y>10</y>
+       <x>550</x>
+       <y>450</y>
        <width>111</width>
        <height>51</height>
       </rect>
@@ -376,26 +412,43 @@ p, li { white-space: pre-wrap; }
       <string>Back</string>
      </property>
     </widget>
-    <widget class="QTextBrowser" name="textbrowser_stats">
+    <widget class="QPushButton" name="button_stats_movetomain">
      <property name="geometry">
       <rect>
-       <x>10</x>
-       <y>10</y>
-       <width>751</width>
-       <height>501</height>
+       <x>770</x>
+       <y>400</y>
+       <width>111</width>
+       <height>51</height>
       </rect>
      </property>
      <property name="font">
       <font>
-       <pointsize>14</pointsize>
+       <pointsize>16</pointsize>
       </font>
+     </property>
+     <property name="text">
+      <string>Main Menu</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="label_stats_readout">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>20</y>
+       <width>751</width>
+       <height>481</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
      </property>
     </widget>
    </widget>
   </widget>
  </widget>
  <resources>
-  <include location="MontyHallProject/doorResource.qrc"/>
+  <include location="doorResource.qrc"/>
+  <include location="doorResource.qrc"/>
  </resources>
  <connections/>
 </ui>
