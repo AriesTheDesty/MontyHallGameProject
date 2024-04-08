@@ -18,8 +18,13 @@ class Logic(QMainWindow, Ui_montyHallGame):
 
         self.tab_current.setCurrentIndex(0)
         self.label.setText("")
-        self.label_game_instructions.setText("This is the game portion. First, you should select one of the doors"
-                                             "using the buttons labeled door #. ")
+        self.label_game_instructions.setText("This is the game portion. First, you should select"
+                                             "\none of the doors using the buttons labeled door #."
+                                             "\nOnce you have your door selected, click the submit"
+                                             "\nbutton. The game will open one of the remaining"
+                                             "\ndoors without the prize behind it. You then have"
+                                             "\nto choose weather to stay or switch to the last"
+                                             "\nremaining door.")
 
         self.button_login.clicked.connect(lambda: self.login())
         self.button_register.clicked.connect(lambda: self.register())
@@ -152,7 +157,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
     def update_stats_text(self):
         stats_text = ""
         for user, values in self.stats.items():
-            stats_text += f"{user}: Total Games - {values[0]}, Stay Wins - {values[1]}, Switch Wins - {values[2]}\n"
+            stats_text += f"{user}:\tTotal Games - {values[0]},\tStay Wins - {values[1]},\tSwitch Wins - {values[2]}\n"
         self.label_stats_readout.setText(stats_text)
 
     def button_clear(self):
@@ -166,9 +171,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
             self.radioButton_door_3.nextCheckState()
             self.label.setText("")
 
-# def write_stats(stats_dict):
-#     with open("stats.csv", "w") as stats_file:
-#         content = csv.writer(stats_file)
-#         content.writerow(['User', 'Total Games Played', 'Stay Wins', 'Switch Wins'])
-#         for user, stats in stats_dict.items:
-#             content.writerow([user, stats[0], stats[1], stats[3]])
+    def write_stats(self, stats_dict):
+        with open("stats.csv", "w") as stats_file:
+            content = csv.writer(stats_file)
+            content.writerow(['User', 'Total Games Played', 'Stay Wins', 'Switch Wins'])
+            for user, stats in stats_dict.items:
+                content.writerow([user, stats[0], stats[1], stats[3]])
