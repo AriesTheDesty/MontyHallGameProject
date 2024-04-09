@@ -15,6 +15,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.correct_door = 0
 
         self.get_information()
+        self.update_stats_text()
 
         self.tab_current.setCurrentIndex(0)
         self.label.setText("")
@@ -37,9 +38,11 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.button_submit.clicked.connect(lambda: self.get_door())
         self.button_stay.clicked.connect(lambda: self.stay_resolve())
         self.button_Switch.clicked.connect(lambda: self.switch_resolve())
+        self.button_savestats.clicked.connect(lambda: self.write_stats())
 
         self.button_stay.hide()
         self.button_Switch.hide()
+        self.button_savestats.hide()
 
     def get_information(self):
         self.stats = {}
@@ -50,7 +53,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
                     first_line = False
                 else:
                     line = line.strip().split(",")
-                    self.stats[line[0]] = [int(line[1]), int(line[2]), int(line[3])]
+                    self.stats[line[0]] = [int(line[1]), int(line[2]), int(line[3]), int(line[4]), int(line[5])]
                     self.users.append(line[0])
 
     def login(self):
@@ -73,9 +76,10 @@ class Logic(QMainWindow, Ui_montyHallGame):
         elif username == "anonymous":
             self.label_login_status.setText(f"This username is reserved for those who want to play anonymously")
         elif username not in self.users:
+            self.stats[username] = [0, 0, 0, 0, 0]
             self.current_user = username
             self.label_login_status.setText(f"You have successfully registered the username {username}."
-                                            f"\nYou may not press the play button to continue on.")
+                                            f"\nYou may now press the play button to continue on.")
         else:
             self.label_login_status.setText(f"This user is already registered."
                                             f"\nTry using a different name or adding numbers to the end of yours")
@@ -121,6 +125,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
                            f"\nWould you like to stay on your current selection or switch doors?")
         self.button_stay.show()
         self.button_Switch.show()
+        self.button_savestats.show()
 
     def stay_resolve(self):
         self.button_stay.hide()
@@ -131,10 +136,12 @@ class Logic(QMainWindow, Ui_montyHallGame):
         elif self.correct_door == self.player_choice:
             self.stats[self.current_user][0] += 1
             self.stats[self.current_user][1] += 1
+            self.stats[self.current_user][3] += 1
             self.button_clear()
             self.update_stats_text()
         elif self.correct_door != self.player_choice:
             self.stats[self.current_user][0] += 1
+            self.stats[self.current_user][4] += 1
             self.button_clear()
             self.update_stats_text()
 
@@ -147,17 +154,34 @@ class Logic(QMainWindow, Ui_montyHallGame):
         elif self.correct_door != self.player_choice:
             self.stats[self.current_user][0] += 1
             self.stats[self.current_user][2] += 1
+            self.stats[self.current_user][4] += 1
             self.button_clear()
             self.update_stats_text()
         elif self.correct_door == self.player_choice:
             self.stats[self.current_user][0] += 1
+            self.stats[self.current_user][3] += 1
             self.button_clear()
             self.update_stats_text()
 
     def update_stats_text(self):
         stats_text = ""
+        games_total = 0
+        player_stay_wins = 0
+        player_switch_wins = 0
+        total_stay_wins = 0
+        total_switch_wins = 0
         for user, values in self.stats.items():
-            stats_text += f"{user}:\tTotal Games - {values[0]},\tStay Wins - {values[1]},\tSwitch Wins - {values[2]}\n"
+            stats_text += (f"{user}:\nTotal Games - {values[0]}, Stay Wins - {values[1]}, "
+                           f"Switch Wins - {values[2]}\n")
+            games_total += values[0]
+            player_stay_wins += values[1]
+            player_switch_wins += values[2]
+            total_stay_wins += values[3]
+            total_switch_wins += values[4]
+        stats_text += (f"\n\nTotal Games - {games_total}, Stay Wins - {player_stay_wins},"
+                       f" Switch Wins - {player_switch_wins}\n"
+                       f"Switch win rate - {total_switch_wins / games_total:.2f},"
+                       f" Switch win rate - {total_stay_wins / games_total:.2f}")
         self.label_stats_readout.setText(stats_text)
 
     def button_clear(self):
@@ -171,9 +195,10 @@ class Logic(QMainWindow, Ui_montyHallGame):
             self.radioButton_door_3.nextCheckState()
             self.label.setText("")
 
-    def write_stats(self, stats_dict):
-        with open("stats.csv", "w") as stats_file:
+    def write_stats(self):
+        with open("stats.csv", "w", newline="") as stats_file:
             content = csv.writer(stats_file)
-            content.writerow(['User', 'Total Games Played', 'Stay Wins', 'Switch Wins'])
-            for user, stats in stats_dict.items:
-                content.writerow([user, stats[0], stats[1], stats[3]])
+            content.writerow(['User', 'Total Games Played', 'Stay Wins', 'Switch Wins',
+                              'Unrealized Switch Wins', 'Unrealized Stay Wins'])
+            for user, stats in self.stats.items():
+                content.writerow([user, stats[0], stats[1], stats[2], stats[3], stats[4]])

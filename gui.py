@@ -141,10 +141,14 @@ class Ui_montyHallGame(object):
         self.button_stats_back.setObjectName("button_stats_back")
         self.button_stats_movetomain = QtWidgets.QPushButton(parent=self.screen_stats)
         self.button_stats_movetomain.setGeometry(QtCore.QRect(770, 400, 111, 51))
+        self.button_savestats = QtWidgets.QPushButton(parent=self.screen_stats)
+        self.button_savestats.setGeometry(QtCore.QRect(770, 340, 111, 51))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.button_stats_movetomain.setFont(font)
         self.button_stats_movetomain.setObjectName("button_stats_movetomain")
+        self.button_savestats.setFont(font)
+        self.button_savestats.setObjectName("button_savestats")
         self.label_stats_readout = QtWidgets.QLabel(parent=self.screen_stats)
         self.label_stats_readout.setGeometry(QtCore.QRect(10, 20, 751, 481))
         self.label_stats_readout.setText("")
@@ -189,6 +193,7 @@ class Ui_montyHallGame(object):
         self.tab_current.setTabText(self.tab_current.indexOf(self.screen_game), _translate("montyHallGame", "Game"))
         self.button_stats_back.setText(_translate("montyHallGame", "Back"))
         self.button_stats_movetomain.setText(_translate("montyHallGame", "Main Menu"))
+        self.button_savestats.setText(_translate("montyHallGame", "Save"))
         self.tab_current.setTabText(self.tab_current.indexOf(self.screen_stats), _translate("montyHallGame", "Statistics"))
 
 
