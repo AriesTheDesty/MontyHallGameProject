@@ -1,4 +1,4 @@
-# Form implementation generated from reading ui file 'MontyHallGUI.ui'
+# Form implementation generated from reading ui file '.\MontyHallGUI.ui'
 #
 # Created by: PyQt6 UI code generator 6.6.1
 #
@@ -13,6 +13,8 @@ class Ui_montyHallGame(object):
     def setupUi(self, montyHallGame):
         montyHallGame.setObjectName("montyHallGame")
         montyHallGame.resize(900, 550)
+        montyHallGame.setMinimumSize(QtCore.QSize(900, 550))
+        montyHallGame.setMaximumSize(QtCore.QSize(900, 550))
         self.tab_current = QtWidgets.QTabWidget(parent=montyHallGame)
         self.tab_current.setGeometry(QtCore.QRect(0, 0, 901, 551))
         self.tab_current.setObjectName("tab_current")
@@ -128,8 +130,27 @@ class Ui_montyHallGame(object):
         self.button_stay.setFont(font)
         self.button_stay.setObjectName("button_stay")
         self.label_game_instructions = QtWidgets.QLabel(parent=self.screen_game)
-        self.label_game_instructions.setGeometry(QtCore.QRect(550, 10, 331, 341))
+        self.label_game_instructions.setGeometry(QtCore.QRect(540, 30, 331, 161))
         self.label_game_instructions.setObjectName("label_game_instructions")
+        self.label_multiplier_instructions = QtWidgets.QLabel(parent=self.screen_game)
+        self.label_multiplier_instructions.setGeometry(QtCore.QRect(540, 370, 141, 31))
+        self.label_multiplier_instructions.setObjectName("label_multiplier_instructions")
+        self.entry_multiplier = QtWidgets.QLineEdit(parent=self.screen_game)
+        self.entry_multiplier.setGeometry(QtCore.QRect(550, 410, 113, 20))
+        self.entry_multiplier.setAlignment(QtCore.Qt.AlignmentFlag.AlignCenter)
+        self.entry_multiplier.setObjectName("entry_multiplier")
+        self.label_game_instruction_title = QtWidgets.QLabel(parent=self.screen_game)
+        self.label_game_instruction_title.setGeometry(QtCore.QRect(540, 10, 171, 41))
+        font = QtGui.QFont()
+        font.setPointSize(18)
+        self.label_game_instruction_title.setFont(font)
+        self.label_game_instruction_title.setObjectName("label_game_instruction_title")
+        self.label_game_outcome = QtWidgets.QLabel(parent=self.screen_game)
+        self.label_game_outcome.setGeometry(QtCore.QRect(540, 190, 350, 90))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.label_game_outcome.setFont(font)
+        self.label_game_outcome.setObjectName("label_game_outcome")
         self.tab_current.addTab(self.screen_game, "")
         self.screen_stats = QtWidgets.QWidget()
         self.screen_stats.setObjectName("screen_stats")
@@ -141,22 +162,24 @@ class Ui_montyHallGame(object):
         self.button_stats_back.setObjectName("button_stats_back")
         self.button_stats_movetomain = QtWidgets.QPushButton(parent=self.screen_stats)
         self.button_stats_movetomain.setGeometry(QtCore.QRect(770, 400, 111, 51))
-        self.button_savestats = QtWidgets.QPushButton(parent=self.screen_stats)
-        self.button_savestats.setGeometry(QtCore.QRect(770, 340, 111, 51))
         font = QtGui.QFont()
         font.setPointSize(16)
         self.button_stats_movetomain.setFont(font)
         self.button_stats_movetomain.setObjectName("button_stats_movetomain")
-        self.button_savestats.setFont(font)
-        self.button_savestats.setObjectName("button_savestats")
         self.label_stats_readout = QtWidgets.QLabel(parent=self.screen_stats)
         self.label_stats_readout.setGeometry(QtCore.QRect(10, 20, 751, 481))
         self.label_stats_readout.setText("")
         self.label_stats_readout.setObjectName("label_stats_readout")
+        self.button_savestats = QtWidgets.QPushButton(parent=self.screen_stats)
+        self.button_savestats.setGeometry(QtCore.QRect(770, 340, 111, 51))
+        font = QtGui.QFont()
+        font.setPointSize(16)
+        self.button_savestats.setFont(font)
+        self.button_savestats.setObjectName("button_savestats")
         self.tab_current.addTab(self.screen_stats, "")
 
         self.retranslateUi(montyHallGame)
-        self.tab_current.setCurrentIndex(2)
+        self.tab_current.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(montyHallGame)
 
     def retranslateUi(self, montyHallGame):
@@ -164,7 +187,8 @@ class Ui_montyHallGame(object):
         montyHallGame.setWindowTitle(_translate("montyHallGame", "Dialog"))
         self.label_login.setText(_translate("montyHallGame", "Login"))
         self.entry_username.setPlaceholderText(_translate("montyHallGame", "Username"))
-        self.label_login_instruction.setText(_translate("montyHallGame", "Enter a unique username and select login or register depending of if you have played before (Do NOT enter a password)"))
+        self.label_login_instruction.setText(_translate("montyHallGame", "Enter a unique username and select login or register depending of if you have played before (Do NOT enter a password)"
+                                                                         "\nYou may also login to anonymous if you want to."))
         self.button_login.setText(_translate("montyHallGame", "LOGIN"))
         self.button_register.setText(_translate("montyHallGame", "REGISTER"))
         self.text_game_explanation.setHtml(_translate("montyHallGame", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
@@ -173,7 +197,7 @@ class Ui_montyHallGame(object):
 "</style></head><body style=\" font-family:\'MS Shell Dlg 2\'; font-size:8.25pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">The Monty Hall problem is a brain teazer in the form of a probabilty puzzle. It is based on the TV show &quot;Let\'s Make a Deal&quot; and named after its original host Monty Hall.</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt;\"><br /></p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">In the puzzle, players are given the choice between 3 doors. Behind one door, there is a desireble prize. Behind the other two is nothing. The player is to make a choice of which door they think the prize is behind. After that, the host would open one of the doors which does not contain the prize. The player then has to choose weather to remain on the door he/she selected originally or switch to the door that has not been opened or selected. </span></p>\n"
+"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">In the puzzle, players are given the choice between 3 doors. Behind one door, there is a desirable prize. Behind the other two is nothing. The player is to make a choice of which door they think the prize is behind. After that, the host would open one of the doors which does not contain the prize. The player then has to choose whether to remain on the door he/she selected originally or switch to the door that has not been opened or selected. </span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt;\"><br /></p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><span style=\" font-size:14pt;\">Now that you know how the game works, lets try it out.</span></p>\n"
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-size:14pt;\"><br /></p></body></html>"))
@@ -184,12 +208,15 @@ class Ui_montyHallGame(object):
         self.radioButton_door_2.setText(_translate("montyHallGame", "Door 2"))
         self.radioButton_door_3.setText(_translate("montyHallGame", "Door 3"))
         self.label.setText(_translate("montyHallGame", "End game text"))
-        self.button_submit.setText(_translate("montyHallGame", "SUBMIT"))
+        self.button_submit.setText(_translate("montyHallGame", "Play Game"))
         self.button_game_next.setText(_translate("montyHallGame", "Statistics"))
         self.button_game_back.setText(_translate("montyHallGame", "Back"))
         self.button_Switch.setText(_translate("montyHallGame", "Switch"))
         self.button_stay.setText(_translate("montyHallGame", "Stay"))
         self.label_game_instructions.setText(_translate("montyHallGame", "TextLabel"))
+        self.label_multiplier_instructions.setText(_translate("montyHallGame", "# of times to run each input"))
+        self.label_game_instruction_title.setText(_translate("montyHallGame", "Instructions"))
+        self.label_game_outcome.setText(_translate("montyHallGame", "TextLabel"))
         self.tab_current.setTabText(self.tab_current.indexOf(self.screen_game), _translate("montyHallGame", "Game"))
         self.button_stats_back.setText(_translate("montyHallGame", "Back"))
         self.button_stats_movetomain.setText(_translate("montyHallGame", "Main Menu"))

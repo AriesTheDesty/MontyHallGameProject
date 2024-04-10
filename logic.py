@@ -24,8 +24,12 @@ class Logic(QMainWindow, Ui_montyHallGame):
                                              "\nOnce you have your door selected, click the submit"
                                              "\nbutton. The game will open one of the remaining"
                                              "\ndoors without the prize behind it. You then have"
-                                             "\nto choose weather to stay or switch to the last"
+                                             "\nto choose whether to stay or switch to the last"
                                              "\nremaining door.")
+        self.label_multiplier_instructions.setText("game multiplier"
+                                                   "\npress enter when done")
+        self.label_game_outcome.setText("")
+        self.entry_multiplier.setText("1")
 
         self.button_login.clicked.connect(lambda: self.login())
         self.button_register.clicked.connect(lambda: self.register())
@@ -39,6 +43,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.button_stay.clicked.connect(lambda: self.stay_resolve())
         self.button_Switch.clicked.connect(lambda: self.switch_resolve())
         self.button_savestats.clicked.connect(lambda: self.write_stats())
+        self.entry_multiplier.editingFinished.connect(lambda: self.check_multiplier())
 
         self.button_stay.hide()
         self.button_Switch.hide()
@@ -73,7 +78,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
         username = self.entry_username.text()
         if username == "":
             self.label_login_status.setText(f"Please enter a username to continue")
-        elif username == "anonymous":
+        elif username.lower == "anonymous":
             self.label_login_status.setText(f"This username is reserved for those who want to play anonymously")
         elif username not in self.users:
             self.stats[username] = [0, 0, 0, 0, 0]
@@ -128,40 +133,58 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.button_savestats.show()
 
     def stay_resolve(self):
-        self.button_stay.hide()
-        self.button_Switch.hide()
+        for i in range(int(self.entry_multiplier.text())):
+            self.button_stay.hide()
+            self.button_Switch.hide()
 
-        if self.correct_door == 0:
-            self.label.setText("No button selected")
-        elif self.correct_door == self.player_choice:
-            self.stats[self.current_user][0] += 1
-            self.stats[self.current_user][1] += 1
-            self.stats[self.current_user][3] += 1
-            self.button_clear()
-            self.update_stats_text()
-        elif self.correct_door != self.player_choice:
-            self.stats[self.current_user][0] += 1
-            self.stats[self.current_user][4] += 1
-            self.button_clear()
-            self.update_stats_text()
+            if self.correct_door == 0:
+                self.label.setText("No button selected")
+            elif self.correct_door == self.player_choice:
+                self.stats[self.current_user][0] += 1
+                self.stats[self.current_user][1] += 1
+                self.stats[self.current_user][3] += 1
+                self.button_clear()
+                self.update_stats_text()
+                self.label_game_outcome.setText(f"You Won! "
+                                                f"You started on door {self.player_choice}"
+                                                f"\nthen stayed on door {self.correct_door}"
+                                                f"\nwhich was the correct door!")
+            elif self.correct_door != self.player_choice:
+                self.stats[self.current_user][0] += 1
+                self.stats[self.current_user][4] += 1
+                self.button_clear()
+                self.update_stats_text()
+                self.label_game_outcome.setText(f"You lost. "
+                                                f"You started on door {self.player_choice}"
+                                                f"\nthen stayed on door that door"
+                                                f"\nwhich was incorrect. The winning door was #{self.correct_door}.")
 
     def switch_resolve(self):
-        self.button_stay.hide()
-        self.button_Switch.hide()
+        for i in range(int(self.entry_multiplier.text())):
+            self.button_stay.hide()
+            self.button_Switch.hide()
 
-        if self.correct_door == 0:
-            self.label.setText("No button selected")
-        elif self.correct_door != self.player_choice:
-            self.stats[self.current_user][0] += 1
-            self.stats[self.current_user][2] += 1
-            self.stats[self.current_user][4] += 1
-            self.button_clear()
-            self.update_stats_text()
-        elif self.correct_door == self.player_choice:
-            self.stats[self.current_user][0] += 1
-            self.stats[self.current_user][3] += 1
-            self.button_clear()
-            self.update_stats_text()
+            if self.correct_door == 0:
+                self.label.setText("No button selected")
+            elif self.correct_door != self.player_choice:
+                self.stats[self.current_user][0] += 1
+                self.stats[self.current_user][2] += 1
+                self.stats[self.current_user][4] += 1
+                self.button_clear()
+                self.update_stats_text()
+                self.label_game_outcome.setText(f"You Won! "
+                                                f"You started on door {self.player_choice}"
+                                                f"\nthen switched to door {self.correct_door}"
+                                                f"\nwhich was the correct door!")
+            elif self.correct_door == self.player_choice:
+                self.stats[self.current_user][0] += 1
+                self.stats[self.current_user][3] += 1
+                self.button_clear()
+                self.update_stats_text()
+                self.label_game_outcome.setText(f"You lost. "
+                                                f"You started on door {self.player_choice}"
+                                                f"\nbut switched off of {self.correct_door}"
+                                                f"\nwhich was the correct door.")
 
     def update_stats_text(self):
         stats_text = ""
@@ -172,7 +195,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
         total_switch_wins = 0
         for user, values in self.stats.items():
             stats_text += (f"{user}:\nTotal Games - {values[0]}, Stay Wins - {values[1]}, "
-                           f"Switch Wins - {values[2]}\n")
+                           f"Switch Wins - {values[2]}\n\n")
             games_total += values[0]
             player_stay_wins += values[1]
             player_switch_wins += values[2]
@@ -181,7 +204,7 @@ class Logic(QMainWindow, Ui_montyHallGame):
         stats_text += (f"\n\nTotal Games - {games_total}, Stay Wins - {player_stay_wins},"
                        f" Switch Wins - {player_switch_wins}\n"
                        f"Switch win rate - {total_switch_wins / games_total:.2f},"
-                       f" Switch win rate - {total_stay_wins / games_total:.2f}")
+                       f" Stay win rate - {total_stay_wins / games_total:.2f}")
         self.label_stats_readout.setText(stats_text)
 
     def button_clear(self):
@@ -194,6 +217,15 @@ class Logic(QMainWindow, Ui_montyHallGame):
         elif self.radioButton_door_3.isChecked():
             self.radioButton_door_3.nextCheckState()
             self.label.setText("")
+
+    def check_multiplier(self):
+        try:
+            multiplier = self.entry_multiplier.text()
+            int(multiplier)
+
+        except ValueError:
+            self.entry_multiplier.clear()
+            self.label_multiplier_instructions.setText("Enter an integer")
 
     def write_stats(self):
         with open("stats.csv", "w", newline="") as stats_file:
