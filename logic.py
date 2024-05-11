@@ -50,6 +50,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.button_savestats.hide()
 
     def get_information(self):
+        """
+        Function Reads from the csv and stores in in a dictionary for use in the game
+        """
         self.stats = {}
         with open("stats.csv", "r") as stats_file:
             first_line = True
@@ -62,6 +65,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
                     self.users.append(line[0])
 
     def login(self):
+        """
+        Function Logs user into an existing account
+        """
         self.label_login_status.clear()
         username = self.entry_username.text()
         if username == "":
@@ -75,6 +81,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
                                             f"are using the same username as last time")
 
     def register(self):
+        """
+        Function Creates a new account using the input text
+        """
         username = self.entry_username.text()
         if username == "":
             self.label_login_status.setText(f"Please enter a username to continue")
@@ -90,16 +99,28 @@ class Logic(QMainWindow, Ui_montyHallGame):
                                             f"\nTry using a different name or adding numbers to the end of yours")
 
     def change_to_main(self):
+        """
+        Function Changes the screen to the main screen
+        """
         self.tab_current.setCurrentIndex(0)
 
     def change_to_game(self):
+        """
+        Function Changes the screen to the game screen
+        """
         self.button_clear()
         self.tab_current.setCurrentIndex(1)
 
     def change_to_stats(self):
+        """
+        Function Changes the screen to the stats screen
+        """
         self.tab_current.setCurrentIndex(2)
 
     def get_door(self):
+        """
+        Function Gets the door from the selected radiobutton
+        """
         if self.current_user == "not logged in":
             self.label.setText("Please log in with your unique username or anonymous first")
         else:
@@ -116,6 +137,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
                 self.label.setText("Chose a door")
 
     def play_game(self):
+        """
+        Function Starts the first step in playing the game out
+        """
         self.correct_door = rnd.randint(1, 3)
         open_door = [1, 2, 3]
         open_door.remove(self.correct_door)
@@ -133,6 +157,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.button_savestats.show()
 
     def stay_resolve(self):
+        """
+        Function Plays the game in with the user staying on their first door selection
+        """
         for i in range(int(self.entry_multiplier.text())):
             self.button_stay.hide()
             self.button_Switch.hide()
@@ -160,6 +187,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
                                                 f"\nwhich was incorrect. The winning door was #{self.correct_door}.")
 
     def switch_resolve(self):
+        """
+        Function Plays the game with the user switching from their original selection
+        """
         for i in range(int(self.entry_multiplier.text())):
             self.button_stay.hide()
             self.button_Switch.hide()
@@ -187,6 +217,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
                                                 f"\nwhich was the correct door.")
 
     def update_stats_text(self):
+        """
+        Function Changes the text on the stats page
+        """
         stats_text = ""
         games_total = 0
         player_stay_wins = 0
@@ -208,6 +241,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
         self.label_stats_readout.setText(stats_text)
 
     def button_clear(self):
+        """
+        Function Removes selected radiobutton
+        """
         if self.radioButton_door_1.isChecked():
             self.radioButton_door_1.nextCheckState()
             self.label.setText("")
@@ -219,6 +255,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
             self.label.setText("")
 
     def check_multiplier(self):
+        """
+        Function Sets the value for the number of games to be played
+        """
         try:
             multiplier = self.entry_multiplier.text()
             int(multiplier)
@@ -228,6 +267,9 @@ class Logic(QMainWindow, Ui_montyHallGame):
             self.label_multiplier_instructions.setText("Enter an integer")
 
     def write_stats(self):
+        """
+        Function Saves all new data by writing to a csv file
+        """
         with open("stats.csv", "w", newline="") as stats_file:
             content = csv.writer(stats_file)
             content.writerow(['User', 'Total Games Played', 'Stay Wins', 'Switch Wins',
